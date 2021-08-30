@@ -26,3 +26,6 @@ benchmarks/graphs
 
 # Environment
 .env
+
+# Debug
+.vscode
