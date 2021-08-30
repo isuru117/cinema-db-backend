@@ -1,7 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
-import config from './config.js';
-import router from './routes.js';
+import config from './config/config.js';
+import movieRoutes from './routes/movie.routes.js';
 import mongoose from 'mongoose';
 
 const app = express();
@@ -24,7 +24,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(helmet.contentSecurityPolicy());
 app.use(helmet.referrerPolicy());
 
-app.use('/api', router);
+app.use('/api', movieRoutes);
 
 function onStart(){
     console.log(`Server running on port ${PORT}`);
