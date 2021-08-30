@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A simple REST API to store and query Movie information",
   "main": "./src/index.js",
+  "type": "module",
   "scripts": {
     "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,8 +11,10 @@
   "author": "Isuru Edirisinghe",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "helmet": "^4.6.0"
+    "helmet": "^4.6.0",
+    "mongoose": "^6.0.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
