@@ -1,10 +1,10 @@
 import {Router} from 'express';
 
-const router = Router();
+const movieRoutes = Router();
 
-router.route('/movies')
+movieRoutes.route('/movies')
     .get(function(req, res) {
         res.send("movies!");
     });
 
-export default router;
+export default movieRoutes;
