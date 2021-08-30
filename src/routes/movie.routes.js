@@ -1,10 +1,8 @@
-import {Router} from 'express';
+import { Router } from 'express';
+import MovieController from '../controllers/movie.controller';
 
 const movieRoutes = Router();
 
-movieRoutes.route('/movies')
-    .get(function(req, res) {
-        res.send("movies!");
-    });
+movieRoutes.get('/movies/:query',MovieController.search);
 
 export default movieRoutes;
