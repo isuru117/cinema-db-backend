@@ -1,8 +1,14 @@
 import mongoose from 'mongoose';
 
 const MovieSchema = mongoose.Schema({
-    name: String,
-    description: String
+    name: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    }
 }, {
     timestamps: true
 });
