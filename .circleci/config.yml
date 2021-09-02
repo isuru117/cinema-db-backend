@@ -25,7 +25,10 @@ jobs:
 workflows:
   build-push-flow:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              ignore: main
       - push:
           filters:
             branches:
