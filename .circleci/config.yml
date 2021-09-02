@@ -1,35 +1,28 @@
-defaults: &defaults
-  working_directory: ~/repo
+version: 2.1
 
-version: 2
-jobs:
-  build:
-    <<: *defaults
-    machine: true
+commands:
+  docker-build:
     steps:
       - checkout
       - run:
-          name: login to docker
-          command: |
-            echo "${DOCKER_PASS}" | docker login --username ${DOCKER_USER} --password-stdin
-      - run:
           name: build docker image
           command: docker build -t ${IMAGE_NAME} .
-      - persist_to_workspace:
-          root: .
-          paths:
-            - "**"
-  push:
-    <<: *defaults
+jobs:
+  build:
     machine: true
     steps:
-      - attach_workspace:
-          at: ~/repo
+      - docker-build
+  push:
+    machine: true
+    steps:
+      - docker-build
+      - run:
+          name: login to docker
+          command: echo "${DOCKER_PASS}" | docker login --username ${DOCKER_USER} --password-stdin
       - run:
           name: push to docker hub
           command: docker push ${IMAGE_NAME}
 workflows:
-  version: 2
   build-push-flow:
     jobs:
       - build
@@ -37,5 +30,3 @@ workflows:
           filters:
             branches:
               only: main
-          requires:
-            - build
