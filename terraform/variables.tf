@@ -42,9 +42,3 @@ variable "username" {
     description = "EC2 instance username for SSH"
     default="your user name"
 }
-
-variable "ssh_key" { 
-    description = "Key used to SSH to EC2 instance"
-    default="your_ssh_key"
-}
-

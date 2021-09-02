@@ -3,7 +3,9 @@ services:
   app:
     image: isuru117/cinema-db-backend
     restart: always
-    env_file: .env
+    environment: 
+      - MONGO_DB_URI=${MONGO_DB_URI}
+      - PORT=${MY_APP_PORT}
     ports:
       - '80:3000'
     links:
