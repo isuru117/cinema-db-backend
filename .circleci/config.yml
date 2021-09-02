@@ -16,7 +16,7 @@ jobs:
           name: build docker image
           command: docker build -t ${IMAGE_NAME} .
       - persist_to_workspace:
-          root: build
+          root: .
           paths:
             - "**"
   push:
