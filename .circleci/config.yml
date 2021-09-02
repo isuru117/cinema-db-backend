@@ -1,5 +1,8 @@
 version: 2.1
 
+defaults: &defaults
+  working_directory: ~/repo
+
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
 
@@ -12,10 +15,12 @@ commands:
           command: docker build -t ${IMAGE_NAME} .
 jobs:
   build:
+    <<: *defaults
     machine: true
     steps:
       - docker-build
   deploy:
+    <<: *defaults
     machine: true
     steps:
       - docker-build
@@ -30,12 +35,14 @@ jobs:
           aws-region: AWS_DEFAULT_REGION
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
       - run:
+          name: copy docker-compose.yml to ec2 instance
+          command: |
+            scp ~/repo/docker-compose.yml ${EC2_USERNAME}@${EC2_PUBLIC_DNS}:${EC2_DEPLOY_PATH}
+      - run:
           name: ssh and run docker-compose
           command: |
-            EC2_USERNAME=${EC2_USERNAME}
-            EC2_PUBLIC_DNS=${EC2_PUBLIC_DNS}
-            ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-            MONGO_DB_URI=${MONGO_DB_URI} APP_PORT=${APP_PORT} sudo -E docker-compose up
+            ssh -o StrictHostKeyChecking=no ${EC2_USERNAME}@${EC2_PUBLIC_DNS} \
+            MONGO_DB_URI=${MONGO_DB_URI} APP_PORT=${APP_PORT} sudo -E docker-compose up --detach
 workflows:
   build-push-flow:
     jobs:
