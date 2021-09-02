@@ -1,6 +1,6 @@
-version: 2
+version: 2.1
 
-commands: # a reusable command with parameters
+commands:
   docker-build:
     steps:
       - checkout
@@ -23,7 +23,6 @@ jobs:
           name: push to docker hub
           command: docker push ${IMAGE_NAME}
 workflows:
-  version: 2
   build-push-flow:
     jobs:
       - build
