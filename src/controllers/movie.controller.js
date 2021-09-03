@@ -1,4 +1,4 @@
-import MovieModel from "../models/movie.model";
+import MovieModel from "../models/movie.model.js";
 import StatusCodes from 'http-status-codes';
 
 const MovieController = {}
@@ -29,7 +29,7 @@ MovieController.search = async (req, res) => {
 
 MovieController.insert = async (req, res) => {
 
-    if (!req.body || !req.body.name || !req.body.name) {
+    if (!req.body || !req.body.name || !req.body.description) {
         return res.status(StatusCodes.BAD_REQUEST).send("Missing required parameters");
     }
 
