@@ -1,0 +1,139 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Cinema DB API",
+    "description": "A simple API that can store and fetch basic movie info",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "Isuru Edirisinghe",
+      "email": "isuruedirisinghe80@gmail.com",
+      "url": "https://isuru117.github.io"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "api.cinemadb.ml",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/movie/{searchQuery}": {
+      "get": {
+        "summary": "Search movie information that matches given query",
+        "parameters": [
+          {
+            "name": "searchQuery",
+            "in": "path",
+            "required": true,
+            "description": "Search query string that matches any part of the movie name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns matching set of movies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/MovieSearchResult"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or no input parameter"
+          },
+          "404": {
+            "description": "No items matching query"
+          }
+        }
+      }
+    },
+    "/movie": {
+      "post": {
+        "summary": "Search movie information that matches given query",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Movie"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns matching set of movies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/MovieAddResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing body parameters"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Movie": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "MovieSearchResult": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Movie"
+      }
+    },
+    "MovieAddResult": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
