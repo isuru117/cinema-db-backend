@@ -15,11 +15,6 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "api.cinemadb.ml",
-  "basePath": "/",
-  "schemes": [
-    "http"
-  ],
   "paths": {
     "/movie/{searchQuery}": {
       "get": {
