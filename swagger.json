@@ -54,13 +54,16 @@
           },
           "404": {
             "description": "No items matching query"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
     },
     "/movie": {
       "post": {
-        "summary": "Search movie information that matches given query",
+        "summary": "Store info about a movie",
         "requestBody": {
           "required": true,
           "content": {
