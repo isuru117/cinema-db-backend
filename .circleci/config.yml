@@ -12,7 +12,7 @@ commands:
       - checkout
       - run:
           name: build docker image
-          command: docker build -t ${IMAGE_NAME} .
+          command: docker build -t ${IMAGE_NAME}:${CIRCLE_SHA1} .
 jobs:
   build:
     <<: *defaults
