@@ -31,7 +31,7 @@ app.use(helmet.contentSecurityPolicy());
 app.use(helmet.referrerPolicy());
 
 app.use('/', movieRoutes);
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { customCssUrl: "https://cdn.jsdelivr.net/npm/swagger-ui-themes@3.0.1/themes/3.x/theme-feeling-blue.css" }));
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 function onStart() {
     console.log(`Server running on port ${PORT}`);
