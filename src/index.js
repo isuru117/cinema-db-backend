@@ -5,10 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 
 import config from './config/main.config.js';
 import movieRoutes from './routes/movie.routes.js';
-
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const swaggerDocument = require('./../swagger.json');
+import { swaggerDocument, swaggerOptions } from './config/swagger.config.js';
 
 const app = express();
 
@@ -31,7 +28,7 @@ app.use(helmet.contentSecurityPolicy());
 app.use(helmet.referrerPolicy());
 
 app.use('/', movieRoutes);
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
 
 function onStart() {
     console.log(`Server running on port ${PORT}`);
