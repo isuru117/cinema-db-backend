@@ -4,7 +4,6 @@
     "version": "1.0.0",
     "title": "Cinema DB API",
     "description": "A simple API that can store and fetch basic movie info",
-    "termsOfService": "http://swagger.io/terms/",
     "contact": {
       "name": "Isuru Edirisinghe",
       "email": "isuruedirisinghe80@gmail.com",
@@ -15,9 +14,14 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
+  "host": "api.cinemadb.ml",
+  "basePath": "/",
   "paths": {
     "/movie/{searchQuery}": {
       "get": {
+        "tags": [
+          "Movies"
+        ],
         "summary": "Search movie information that matches given query",
         "parameters": [
           {
@@ -58,6 +62,9 @@
     },
     "/movie": {
       "post": {
+        "tags": [
+          "Movies"
+        ],
         "summary": "Store info about a movie",
         "requestBody": {
           "required": true,
