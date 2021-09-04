@@ -28,8 +28,6 @@ jobs:
       - run:
           name: "check directory"
           command: ls -R .
-      - terraform/fmt:
-          path: "./terraform"
       - terraform/validate:
           path: "./terraform"
       - terraform/init:
