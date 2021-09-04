@@ -3,7 +3,6 @@ defaults: &defaults
   working_directory: ~/repo
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
-  terraform: circleci/terraform@3.0.0
 commands:
   docker-build:
     steps:
@@ -17,28 +16,7 @@ jobs:
     machine: true
     steps:
       - docker-build
-  deploy-infrastructure:
-    <<: *defaults
-    executor: terraform/default
-    steps:
-      - checkout
-      - run:
-          name: "Create .terraformrc file locally"
-          command: echo "credentials \"app.terraform.io\" {token = \"$TERRAFORM_TOKEN\"}" > $HOME/.terraformrc
-      - terraform/validate:
-          path: "./terraform"
-      - terraform/init:
-          backend: true
-          path: "./terraform"
-      - terraform/plan:
-          var: aws_access_key=$AWS_ACCESS_KEY_ID,aws_secret_key=$AWS_SECRET_ACCESS_KEY
-          var_file: terraform.tfvars
-          path: "./terraform"
-      - terraform/apply:
-          var: aws_access_key=$AWS_ACCESS_KEY_ID,aws_secret_key=$AWS_SECRET_ACCESS_KEY
-          var_file: terraform.tfvars
-          path: "./terraform"
-  deploy-build:
+  deploy:
     <<: *defaults
     machine: true
     steps:
@@ -69,13 +47,7 @@ workflows:
           filters:
             branches:
               ignore: main
-      - deploy-infrastructure:
+      - deploy:
           filters:
             branches:
               only: main
-      - deploy-build:
-          filters:
-            branches:
-              only: main
-          requires:
-            - deploy-infrastructure
