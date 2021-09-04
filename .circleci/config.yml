@@ -31,13 +31,14 @@ jobs:
           path: ./terraform/
       - terraform/init:
           backend: true
-          backend_config_file: backend.hcl
           path: ./terraform/
       - terraform/plan:
-          backend_config_file: backend.hcl
+          var: aws_access_key=${AWS_ACCESS_KEY_ID},aws_secret_key=${AWS_SECRET_ACCESS_KEY}
+          var_file: terraform.tfvars
           path: ./terraform/
       - terraform/apply:
-          backend_config_file: backend.hcl
+          var: aws_access_key=${AWS_ACCESS_KEY_ID},aws_secret_key=${AWS_SECRET_ACCESS_KEY}
+          var_file: terraform.tfvars
           path: ./terraform/
   deploy-build:
     <<: *defaults
