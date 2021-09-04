@@ -26,7 +26,7 @@ jobs:
           name: "Create .terraformrc file locally"
           command: echo "credentials \"app.terraform.io\" {token = \"$TERRAFORM_TOKEN\"}" > $HOME/.terraformrc
       - run:
-          name: "Create .terraformrc file locally"
+          name: "var test"
           command: echo "aws_access_key=$AWS_ACCESS_KEY_ID,aws_secret_key=$AWS_SECRET_ACCESS_KEY"
       - terraform/validate:
           path: "./terraform"
@@ -68,6 +68,7 @@ jobs:
 workflows:
   main-workflow:
     jobs:
+      - deploy-infrastructure
       - build:
           filters:
             branches:
@@ -77,8 +78,5 @@ workflows:
             branches:
               only: main
       - deploy-build:
-          filters:
-            branches:
-              only: main
           requires:
             - deploy-infrastructure
