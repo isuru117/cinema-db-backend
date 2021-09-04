@@ -50,7 +50,7 @@ jobs:
           name: Close port 22 on EC2 instance
           command: |
             PUBLIC_IP=$(curl ipinfo.io/ip)
-            aws ec2 authorize-security-group-ingress --region $AWS_DEFAULT_REGION --group-id $SG_ID \
+            aws ec2 revoke-security-group-ingress --region $AWS_DEFAULT_REGION --group-id $SG_ID \
               --protocol tcp --port 22 --cidr $PUBLIC_IP/24
 workflows:
   main-workflow:
