@@ -25,20 +25,17 @@ jobs:
       - run:
           name: "Create .terraformrc file locally"
           command: echo "credentials \"app.terraform.io\" {token = \"$TERRAFORM_TOKEN\"}" > $HOME/.terraformrc
-      - run:
-          name: "check directory"
-          command: ls -R .
       - terraform/validate:
           path: "./terraform"
       - terraform/init:
           backend: true
           path: "./terraform"
       - terraform/plan:
-          var: 'aws_access_key=${AWS_ACCESS_KEY_ID},aws_secret_key=${AWS_SECRET_ACCESS_KEY}'
+          var: aws_access_key="${AWS_ACCESS_KEY_ID}",aws_secret_key="${AWS_SECRET_ACCESS_KEY}"
           var_file: terraform.tfvars
           path: "./terraform"
       - terraform/apply:
-          var: 'aws_access_key=${AWS_ACCESS_KEY_ID},aws_secret_key=${AWS_SECRET_ACCESS_KEY}'
+          var: aws_access_key="${AWS_ACCESS_KEY_ID}",aws_secret_key="${AWS_SECRET_ACCESS_KEY}"
           var_file: terraform.tfvars
           path: "./terraform"
   deploy-build:
