@@ -19,7 +19,7 @@ jobs:
       - docker-build
       - run:
         name: "Test Vars"
-        command: echo "$AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY"
+        command: echo "${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY}"
   deploy-infrastructure:
     <<: *defaults
     executor: terraform/default
