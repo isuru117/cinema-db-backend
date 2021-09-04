@@ -20,6 +20,7 @@ jobs:
     steps:
       - docker-build
   deploy-infrastructure:
+    <<: *defaults
     executor: terraform/default
     steps:
       - checkout
@@ -75,6 +76,10 @@ workflows:
           filters:
             branches:
               ignore: main
+      - deploy-infrastructure:
+          filters:
+            branches:
+              only: main
       - deploy-build:
           filters:
             branches:
