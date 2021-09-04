@@ -31,11 +31,11 @@ jobs:
           backend: true
           path: "./terraform"
       - terraform/plan:
-          var: aws_access_key="${AWS_ACCESS_KEY_ID}",aws_secret_key="${AWS_SECRET_ACCESS_KEY}"
+          var: aws_access_key=$AWS_ACCESS_KEY_ID,aws_secret_key=$AWS_SECRET_ACCESS_KEY
           var_file: terraform.tfvars
           path: "./terraform"
       - terraform/apply:
-          var: aws_access_key="${AWS_ACCESS_KEY_ID}",aws_secret_key="${AWS_SECRET_ACCESS_KEY}"
+          var: aws_access_key=$AWS_ACCESS_KEY_ID,aws_secret_key=$AWS_SECRET_ACCESS_KEY
           var_file: terraform.tfvars
           path: "./terraform"
   deploy-build:
