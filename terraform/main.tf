@@ -1,7 +1,7 @@
 provider "aws" {
-  access_key = "${var.aws_access_key}"
-  secret_key = "${var.aws_secret_key}"
-  region = "${var.aws_region}"
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
+  region = var.aws_region
 }
 
 resource "aws_security_group" "app_security_group" {
@@ -83,6 +83,45 @@ resource "tls_private_key" "this" {
 resource "aws_key_pair" "generated_key" {
   key_name   = var.key_name
   public_key = tls_private_key.this.public_key_openssh
+}
+
+terraform {
+  backend "s3" {
+    bucket = "tf-state-isuru117-node-app-1"
+    key = "global/s3/terraform.tfstate"
+    region = "us-east-2"
+    dynamodb_table = "terraform-state-locking"
+    encrypt = true
+  }
+}
+
+resource "aws_s3_bucket" "terraform_state"{
+  bucket = "tf-state-isuru117-node-app-1"
+  lifecycle {
+    prevent_destroy = true
+  }
+  versioning {
+    enabled = true
+  }
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      } 
+    }
+  }
+}
+
+resource "aws_dynamodb_table" "terraform_locks" {
+  name = "terraform-state-locking"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 5
+  write_capacity = 5
+  hash_key = "LockID"
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
 }
 
 output "ssh_key" {
