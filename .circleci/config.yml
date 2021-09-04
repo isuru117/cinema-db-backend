@@ -19,8 +19,7 @@ jobs:
       - docker-build
   deploy-infrastructure:
     <<: *defaults
-    executor:
-      name: terraform/default
+    docker:
       image: hashicorp/terraform:1.0.5
     steps:
       - checkout
