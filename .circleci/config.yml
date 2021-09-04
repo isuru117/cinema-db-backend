@@ -19,7 +19,32 @@ jobs:
     machine: true
     steps:
       - docker-build
-  deploy:
+  deploy-infrastructure:
+    executor: terraform/default
+    steps:
+      - checkout
+      - run:
+          name: "Create .terraformrc file locally"
+          command: echo "credentials \"app.terraform.io\" {token = \"$TERRAFORM_TOKEN\"}" > $HOME/.terraformrc
+      - terraform/install:
+          arch: amd64
+          os: linux
+          terraform_version: 1.0.5
+      - terraform/fmt:
+          path: ./terraform/
+      - terraform/validate:
+          path: ./terraform/
+      - terraform/init:
+          backend: true
+          backend_config_file: backend.hcl
+          path: ./terraform/
+      - terraform/plan:
+          backend_config_file: backend.hcl
+          path: ./terraform/
+      - terraform/apply:
+          backend_config_file: backend.hcl
+          path: ./terraform/
+  deploy-build:
     <<: *defaults
     machine: true
     steps:
@@ -44,13 +69,15 @@ jobs:
             ssh -o StrictHostKeyChecking=no ${EC2_USERNAME}@${EC2_PUBLIC_DNS} \
             MONGO_DB_URI=${MONGO_DB_URI} APP_PORT=${APP_PORT} TAG_VERSION=${CIRCLE_SHA1} sudo -E docker-compose up --detach --remove-orphans
 workflows:
-  build-push-flow:
+  main-workflow:
     jobs:
       - build:
           filters:
             branches:
               ignore: main
-      - deploy:
+      - deploy-build:
           filters:
             branches:
               only: main
+          requires:
+            - deploy-infrastructure
