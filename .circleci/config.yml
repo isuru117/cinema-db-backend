@@ -19,15 +19,12 @@ jobs:
       - docker-build
   deploy-infrastructure:
     <<: *defaults
+    executor: terraform/default
     steps:
       - checkout
       - run:
           name: "Create .terraformrc file locally"
           command: echo "credentials \"app.terraform.io\" {token = \"$TERRAFORM_TOKEN\"}" > $HOME/.terraformrc
-      - terraform/install:
-          arch: amd64
-          os: linux
-          terraform_version: 1.0.5
       - terraform/fmt:
           path: ./terraform/
       - terraform/validate:
