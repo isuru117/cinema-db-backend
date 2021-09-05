@@ -6,20 +6,33 @@ orbs:
 commands:
   docker-build:
     steps:
-      - checkout
       - run:
           name: build docker image
           command: docker build -t ${IMAGE_NAME}:${CIRCLE_SHA1} .
 jobs:
   build:
     <<: *defaults
-    machine: true
+    docker:
+      - image: circleci/node:14.7
     steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: npm ci
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: npm run lint
       - docker-build
   deploy:
     <<: *defaults
     machine: true
     steps:
+      - checkout
       - docker-build
       - run:
           name: login to docker

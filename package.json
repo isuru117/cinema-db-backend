@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node ./src/index.js",
     "dev": "nodemon --trace-warnings ./src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint \"**/*.js\""
   },
   "author": "Isuru Edirisinghe",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
+    "eslint": "^7.32.0",
     "nodemon": "^2.0.12"
   }
 }
