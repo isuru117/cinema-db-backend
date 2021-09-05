@@ -8,7 +8,7 @@ const MovieController = {
       return res.status(StatusCodes.BAD_REQUEST).send("Missing required parameters");
     }
 
-    MovieService.find(req.params.query).then(data => {
+    MovieService.search(req.params.query).then(data => {
       if (data) {
         return res.status(StatusCodes.OK).send(data);
       }

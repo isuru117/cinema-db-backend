@@ -1,7 +1,7 @@
 import MovieModel from "../models/movie.model.js";
 
 const MovieService = {
-  find(searchQuery) {
+  search(searchQuery) {
     return MovieModel.find({ "name": new RegExp(`.*${searchQuery}.*`, "i") }).then(data => {
       if (data.length > 0) {
         data = data.map(item => ({
