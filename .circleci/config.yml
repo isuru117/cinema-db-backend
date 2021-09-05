@@ -25,7 +25,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npx eslint **/*.js
+      - run: npm run lint
       - run: npm run build
       - docker-build
   deploy:
