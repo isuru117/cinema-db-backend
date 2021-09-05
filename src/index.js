@@ -24,6 +24,8 @@ mongoose.connect(config.mongo_url, {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// add basic policy headers
 app.use(helmet.contentSecurityPolicy());
 app.use(helmet.referrerPolicy());
 

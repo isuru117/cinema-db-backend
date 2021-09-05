@@ -5,6 +5,8 @@ import Sinon from "sinon";
 import MovieService from "../../src/services/movie.service.js";
 import { assert, expect } from "chai";
 
+// perform basic unit tests for service layer
+
 describe("Movie Controller - search tests", () => {
 
   let sandbox = Sinon.createSandbox();

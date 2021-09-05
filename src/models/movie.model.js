@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// mongoose schema definitions to enforce fields and data types 
 const MovieSchema = mongoose.Schema({
   name: {
     type: String,
