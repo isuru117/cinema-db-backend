@@ -9,13 +9,6 @@ resource "aws_security_group" "app_security_group" {
   description = "security group for ${var.tag_name}"
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -86,11 +79,41 @@ resource "aws_key_pair" "generated_key" {
 }
 
 terraform {
-  backend "remote" {
-    organization = "isuru117"
-    workspaces {
-      name = "cinemadb-backend"
+  backend "s3" {
+    bucket         = "tf-state-isuru117-node-app-1"
+    key            = "global/s3/terraform.tfstate"
+    region         = "us-east-2"
+    dynamodb_table = "terraform-state-locking"
+    encrypt        = true
+  }
+}
+
+resource "aws_s3_bucket" "terraform_state" {
+  bucket = "tf-state-isuru117-node-app-1"
+  lifecycle {
+    prevent_destroy = true
+  }
+  versioning {
+    enabled = true
+  }
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
     }
+  }
+}
+
+resource "aws_dynamodb_table" "terraform_locks" {
+  name           = "terraform-state-locking"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 5
+  write_capacity = 5
+  hash_key       = "LockID"
+  attribute {
+    name = "LockID"
+    type = "S"
   }
 }
 
