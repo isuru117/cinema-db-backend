@@ -1,11 +1,15 @@
+import { validationResult } from "express-validator";
 import StatusCodes from "http-status-codes";
 import MovieService from "../services/movie.service.js";
 
 const MovieController = {
 
   search(req, res) {
-    if (!req.params.query) {
-      return res.status(StatusCodes.BAD_REQUEST).send("Missing required parameters");
+
+    // process input validation received from router
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
     MovieService.search(req.params.query).then(data => {
@@ -21,8 +25,11 @@ const MovieController = {
   },
 
   insert(req, res) {
-    if (!req.body || !req.body.name || !req.body.description) {
-      return res.status(StatusCodes.BAD_REQUEST).send("Missing required parameters");
+
+    // process input validation received from router
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
     MovieService.insert({
