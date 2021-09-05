@@ -1,18 +1,18 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const MovieSchema = mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    }
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
 }, {
-    timestamps: true
+  timestamps: true,
 });
 
-const movieModel = mongoose.model('Movie', MovieSchema);
+const movieModel = mongoose.model("Movie", MovieSchema);
 
 export default movieModel;
