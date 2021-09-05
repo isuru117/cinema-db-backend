@@ -4,9 +4,12 @@ defaults: &defaults
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
 commands:
-  docker-build:
+  common-build:
     steps:
       - checkout
+      - run:
+          name: run eslint
+          command: npx eslint **/*.js
       - run:
           name: build docker image
           command: docker build -t ${IMAGE_NAME}:${CIRCLE_SHA1} .
@@ -15,12 +18,12 @@ jobs:
     <<: *defaults
     machine: true
     steps:
-      - docker-build
+      - common-build
   deploy:
     <<: *defaults
     machine: true
     steps:
-      - docker-build
+      - common-build
       - run:
           name: login to docker
           command: echo "${DOCKER_PASS}" | docker login --username ${DOCKER_USER} --password-stdin
