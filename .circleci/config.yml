@@ -59,7 +59,7 @@ jobs:
           name: ssh and run docker-compose
           command: |
             ssh -o StrictHostKeyChecking=no ${EC2_USERNAME}@${EC2_PUBLIC_DNS} \
-            MONGO_DB_URI=${MONGO_DB_URI} APP_PORT=${APP_PORT} TAG_VERSION=${CIRCLE_SHA1} sudo -E docker-compose up --detach --remove-orphans
+            MONGO_DB_URI=${MONGO_DB_URI} TAG_VERSION=${CIRCLE_SHA1} sudo -E docker-compose up --detach --remove-orphans
       - run:
           name: Close port 22 on EC2 instance
           command: |
