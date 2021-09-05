@@ -35,7 +35,7 @@ const MovieController = {
       .catch(() => {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("An error occured while inserting movie");
       });
-  }
-}
+  },
+};
 
 export default MovieController;
