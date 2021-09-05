@@ -12,12 +12,22 @@ commands:
 jobs:
   build:
     <<: *defaults
-    machine: true
+    docker:
+      - image: cimg/node:14.15.1-buster-browsers-legacy
     steps:
       - checkout
-      - run:
-          name: run eslint
-          command: npx eslint **/*.js
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: npm ci
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: npm run test
+      - run: npx eslint **/*.js
+      - run: npm run build
       - docker-build
   deploy:
     <<: *defaults
