@@ -66,6 +66,7 @@ jobs:
             PUBLIC_IP=$(curl ipinfo.io/ip)
             aws ec2 revoke-security-group-ingress --region $AWS_DEFAULT_REGION --group-id $SG_ID \
               --protocol tcp --port 22 --cidr $PUBLIC_IP/24
+          when: always
 workflows:
   main-workflow:
     jobs:
