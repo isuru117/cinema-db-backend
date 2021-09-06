@@ -42,10 +42,11 @@ The following sections describe steps to configure each component of the project
 ### Setting up Infrastructure via Terraform
 #### This section explains how to deploy required infrastructure via Terraform CLI locally
 1. Fork and `git clone` the project to your local machine  
-2. Set the variables specified in (terraform.tfvars)[https://github.com/isuru117/cinema-db-backend/blob/main/terraform/terraform.tfvars] in `./terraform`
-3. **IMPORTANT** : Replace the `bucket` name in the `terraform backend "s3"` module of [main.tf](https://github.com/isuru117/cinema-db-backend/blob/main/terraform/main.tf) with a unique value, otherwise the following steps will fail
-4. Run **terraform init -backend-config="access_key=`your aws access key`" -backend-config="secret_key=`your aws secret key`"**
-5. Run **terraform apply**  
+2. Set the variables specified in [terraform.tfvars](https://github.com/isuru117/cinema-db-backend/blob/main/terraform/terraform.tfvars) in `/terraform`
+3. **IMPORTANT** : Replace the `bucket` name in the modules `terraform backend "s3"` and `resource "aws_s3_bucket" "terraform_state"` of [main.tf](https://github.com/isuru117/cinema-db-backend/blob/main/terraform/main.tf) with a unique value, otherwise the following steps will fail
+4. Comment out the `terraform backend "s3"` module and run **terraform init** and **terraform apply** (The infrastructure needs to be deployed prior to setting up the backend)
+5. Uncomment the `terraform backend "s3"` module and run **terraform init -backend-config="access_key=`your aws access key`" -backend-config="secret_key=`your aws secret key`"**
+6. Run **terraform apply**  
 
 ### Setting up the pipeline
 #### This sections describes setting up the pipeline on CircleCI cloud
