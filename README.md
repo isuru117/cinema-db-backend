@@ -56,7 +56,7 @@ The following sections describe steps to configure each component of the project
 
 #### Manual Steps Required
 - Adding TLS/SSL needs to be manually configured, this can be achieved either by using an Elastic Load Balancer with a certificate from AWS Certificate Manager or by using a service such as LetsEncrypt or any other method of choice
-- Obtaining a domain (The demo domain was obtained from [freenom](freenom.com)) and configuration (via [AWS Route53](https://aws.amazon.com/route53/) or any preferred method)
+- Obtaining a domain (The demo domain was obtained from [freenom](https://www.freenom.com/)) and configuration (via [AWS Route53](https://aws.amazon.com/route53/) or any preferred method)
 
 ### CI Process
 #### A brief description on the CI process setup in the project
